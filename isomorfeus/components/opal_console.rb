@@ -5,9 +5,10 @@ class OpalConsole < React::Component::Base
   in_panel ruby_code - execute ruby_code in the Opal DevTools panel (for developing the extension)
   in_background javascript_code - execute javascript_code in the Opal DevTools background page (for developing the extension)
   inject_opal - inject Opal into current page, only works if the page does not have Opal.
-  debug - toggle debugging mode for Opal DevTools, shows generated code and other things.
+  debug_devtools - toggle debugging mode for Opal DevTools, shows generated code and other things.
+  clear - clear screen
 
-  Anything else is interpreted as ruby code and executed in the web page.
+  Anything else is interpreted as ruby code and executed in the context of the web page.
   TEXT
 
   state.count = 1
@@ -87,11 +88,14 @@ class OpalConsole < React::Component::Base
         console_return
       elsif command.start_with?('inject_opal')
         inject_to_page
-      elsif command.start_with?('debug')
+      elsif command.start_with?('debug_devtools')
         state.debug(!state.debug) do
           console_log("debug: #{state.debug}")
           ref(:console).JS[:current].JS.return()
         end
+      elsif command.start_with?('clear')
+        ref(:console).JS[:current].JS.setState(`{ log: [] }`)
+        console_return
       else
         execute_in_page(command)
       end
