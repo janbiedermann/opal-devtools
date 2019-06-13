@@ -1,0 +1,5 @@
+Gemfile.lock
+yarn.lock
+extension/devtools/panel/devtools-panel.js
+extension/devtools/panel/opal-inject.js
+node_modules

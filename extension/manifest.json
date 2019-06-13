@@ -1,0 +1,24 @@
+{
+  "description": "Tools for working with Opal Ruby in the browser.",
+  "manifest_version": 2,
+  "name": "OpalDevtools",
+  "version": "0.0.1",
+  "author": "Jan Biedermann",
+  "homepage_url": "https://github.com/isomorfeus/opal-devtools",
+  "icons": {
+    "48": "icons/opal_devtools_48.png",
+    "128": "icons/opal_devtools_128.png"
+  },
+
+  "background": {
+    "scripts": ["background_scripts/background.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+      "<all_urls>"
+  ],
+
+  "devtools_page": "devtools/devtools-page.html"
+
+}
