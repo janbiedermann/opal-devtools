@@ -1,4 +1,6 @@
-# Opal DevTools
+# Opal Devtools
+
+Currently provides a console, available in the Opal tab of Chrome Devtools.
 
 - clone
 - yarn install
