@@ -1,8 +1,9 @@
 div.react-console-container {
-    font-family: "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
+    font-family: "Menlo", "Andale Mono", "DejaVu Sans Mono", "Droid Sans Mono", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
     max-width: 100%;
-    max-height: 100%;
     box-sizing: border-box;
+    max-height: 100%;
+    padding: 0.5em;
     overflow: auto;
     white-space: pre; }
 
@@ -40,4 +41,4 @@ div.react-console-focus span.react-console-cursor-idle {
         color: #444; } }
 
 div.react-console-message {
-}
+    padding: 0.1em; }

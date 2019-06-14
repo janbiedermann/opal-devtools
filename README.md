@@ -15,4 +15,4 @@ and in chrome extensions, developer mode, load the `extension` directory.
 - opal-webpack-loader
 - isomorfeus-redux
 - isomorfeus-react
-- https://github.com/autochthe/react-console
+- OpalConsole, integrated.

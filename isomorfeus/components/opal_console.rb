@@ -1,34 +1,43 @@
 class OpalConsole < React::Component::Base
-  WELCOME_MESSAGE = "Welcome to Opal DevTools! Type 'help' for available commands."
+  WELCOME_MESSAGE = <<~TEXT
+  Welcome to Opal DevTools! Type 'help' for available commands.
+  Type 'CTRL-?' to insert a '?' on keyboards where 'SHIFT-?' would be required.
+  TEXT
+
   HELP_TEXT = <<~TEXT
   Available commands:
   in_panel ruby_code - execute ruby_code in the Opal DevTools panel (for developing the extension)
   in_background javascript_code - execute javascript_code in the Opal DevTools background page (for developing the extension)
   inject_opal - inject Opal into current page, only works if the page does not have Opal.
   debug_devtools - toggle debugging mode for Opal DevTools, shows generated code and other things.
-  clear - clear screen
+  clear_screen - clear screen
 
   Anything else is interpreted as ruby code and executed in the context of the web page.
   TEXT
 
   state.count = 1
   state.debug = false
+
   ref :console
 
-  def console_return
+  event_handler :focus do |_|
+    ruby_ref(:console).current.focus
+  end
+
+  def carriage_return
     state.count(state.count + 1) do
-      ref(:console).JS[:current].JS.return()
+      ruby_ref(:console).current.carriage_return
     end
   end
 
   def console_log(message)
-    ref(:console).JS[:current].JS.log(message)
+    ruby_ref(:console).current.log(message)
   end
 
   def execute_in_panel(command)
     result = Opal::Parser.eval(command)
     console_log(result)
-    console_return
+    carriage_return
   end
 
   def execute_in_background(command)
@@ -66,7 +75,7 @@ class OpalConsole < React::Component::Base
           if (exception_info.isError) { #{console_log(`exception_info.description`)} }
           if (exception_info.isException) { #{console_log(`exception_info.value`)} }
         }
-        #{console_return}
+        #{carriage_return}
       });
     }
   end
@@ -76,8 +85,6 @@ class OpalConsole < React::Component::Base
   end
 
   def handler(command)
-    console = ref(:console).JS[:current]
-    result = nil
     begin
       if command.start_with?('in_panel')
         execute_in_panel(command[8..-1])
@@ -85,27 +92,28 @@ class OpalConsole < React::Component::Base
         execute_in_background(command[13..-1])
       elsif command.start_with?('help')
         console_log(HELP_TEXT)
-        console_return
+        carriage_return
       elsif command.start_with?('inject_opal')
         inject_to_page
       elsif command.start_with?('debug_devtools')
         state.debug(!state.debug) do
           console_log("debug: #{state.debug}")
-          ref(:console).JS[:current].JS.return()
+          carriage_return
         end
-      elsif command.start_with?('clear')
-        ref(:console).JS[:current].JS.setState(`{ log: [] }`)
-        console_return
+      elsif command.start_with?('clear_screen')
+        ruby_ref(:console).current.clear_screen
+        carriage_return
       else
         execute_in_page(command)
       end
     rescue Exception => e
-      console.JS.log(e.message)
-      console_return
+      console_log(e.message)
+      carriage_return
     end
   end
 
   render do
-    Console(ref: ref(:console), autofocus: true, handler: proc { |c| handler(c) }, promptLabel: "#{state.count} > ", welcomeMessage: WELCOME_MESSAGE)
+    Console(ref: ref(:console), autofocus: true, handler: proc { |c| handler(c) }, prompt_label: "#{state.count} > ",
+            welcome_message: WELCOME_MESSAGE, on_click: :focus)
   end
 end
