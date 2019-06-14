@@ -10,7 +10,6 @@
     "@material-ui/styles": "^4.0.2",
     "opal-webpack-loader": "^0.9.2",
     "react": "^16.8.6",
-    "react-console-component": "^0.6.1",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
