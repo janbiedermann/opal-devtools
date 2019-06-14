@@ -26,9 +26,9 @@ chrome.devtools.panels.create(
 
 
 /** communicate with page */
-let backgroundPageConnection = chrome.runtime.connect({name: "devtools-page"});
-
-backgroundPageConnection.onMessage.addListener(function(message) {});
+// let backgroundPageConnection = chrome.runtime.connect({name: "devtools-page"});
+//
+// backgroundPageConnection.onMessage.addListener(function(message) {});
 
 // Relay the tab ID to the background page
 //chrome.runtime.sendMessage({
