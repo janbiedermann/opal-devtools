@@ -25,9 +25,6 @@ global.NavLink = NavLink;
 global.Route = Route;
 global.Switch = Switch;
 
-import Console from 'react-console-component';
-global.Console = Console;
-
 import init_app from 'isomorfeus_loader.rb';
 init_app();
 Opal.load('isomorfeus_loader');
