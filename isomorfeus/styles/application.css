@@ -5,21 +5,26 @@ div.react-console-container {
     max-height: 100%;
     padding: 0.5em;
     overflow: auto;
-    white-space: pre; }
+    white-space: pre;
+    color: #7A8DBE;
+}
 
 div.react-console-prompt-box {
-    color: #444; }
+    color: #F3BD65;
+}
+
 
 span.react-console-prompt-label {
     font-weight: bold; }
 
 div.react-console-focus span.react-console-cursor {
     background: #333;
-    color: #eee; }
+    color: purple;
+}
 
 div.react-console-nofocus span.react-console-cursor {
     background: none;
-    color: #444;
+    color: aquamarine;
     outline: 0.1em solid #333;
     outline-offset: -0.1em; }
 
@@ -29,16 +34,20 @@ div.react-console-focus span.react-console-cursor-idle {
 @keyframes react-console-cursor-animation {
     0% {
         background: #333;
-        color: #eee; }
+        /*color: #eee; */
+    }
     50% {
         background: #333;
-        color: #eee; }
+        /*color: #eee; */
+    }
     51% {
         background: none;
-        color: #444; }
+        /*color: #444; */
+    }
     100% {
         background: none;
-        color: #444; } }
+        /*color: #444; */
+    } }
 
 div.react-console-message {
     padding: 0.1em; }
