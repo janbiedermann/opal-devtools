@@ -5,9 +5,13 @@ Currently provides a console to execute ruby in the webpage context.
 Works on Chrome and Firefox.
 
 - clone
-- yarn install
-- bundle install
-- yarn run production_build
+- `yarn install`
+- `bundle install`
+- `yarn run production_build` for a minified build
+
+or
+- `yarn run debug_build` to include source maps for debugging.
+ 
 
 For Chrome:
 - in Chrome extensions, turn on developer mode
