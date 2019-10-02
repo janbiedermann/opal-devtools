@@ -22,6 +22,8 @@ For Firefox:
 - then "Load temporary Add-on"
 - select `manifest.json` in the `firefox_extension` directory. 
 
+If typing doesn't appear to work, it's out of focus, try clicking directly on the cursor.
+
 #### Using
 - opal
 - opal-browser
