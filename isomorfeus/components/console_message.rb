@@ -5,7 +5,7 @@ class ConsoleMessage < React::Component::Base
   render do
     DIV(class_name: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")) do
       i = 0
-      props.value.map do |val|
+      props.value.each do |val|
         i += 1
         if `(typeof val === 'string')`
           DIV(key: i) { val }

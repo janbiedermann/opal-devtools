@@ -727,10 +727,12 @@ class Console < React::Component::Base
         DIV(class_name: "react-console-message react-console-welcome") { props.welcome_message }
       end
       i = 0
-		  state.log.map do |val|
+		  state.log.each do |val|
         i += 1
-			  [ ConsolePrompt(label: val[:label], value: val[:command]) ] +
-          val[:message].map { |v| ConsoleMessage(key: i, type: v[:type], value: v[:value]) }
+			  ConsolePrompt(label: val[:label], value: val[:command])
+        val[:message].each do |v|
+          ConsoleMessage(key: i, type: v[:type], value: v[:value])
+        end
       end
       if state.accept_input
         ConsolePrompt(label: state.curr_label, value: state.prompt_text, point: state.point, argument: state.argument)
