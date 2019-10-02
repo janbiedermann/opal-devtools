@@ -2,6 +2,8 @@ Gemfile.lock
 yarn.lock
 chrome_extension/devtools/panel/*.js
 firefox_extension/devtools/panel/*.js
+chrome_extension/devtools/panel/*.js.map
+firefox_extension/devtools/panel/*.js.map
 node_modules
 .bundle
 vendor/bundle

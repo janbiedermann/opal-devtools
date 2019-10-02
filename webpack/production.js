@@ -6,7 +6,7 @@ const common_config = {
     context: path.resolve(__dirname, '../isomorfeus'),
     mode: "production",
     optimization: {
-        minimize: false
+        minimize: true
     },
     performance: {
         maxAssetSize: 20000000,
@@ -17,7 +17,6 @@ const common_config = {
             new OwlResolver('resolve', 'resolved') // resolve ruby files
         ]
     },
-    target: 'web',
     module: {
         rules: [
             {
@@ -54,7 +53,7 @@ const common_config = {
             },
             {
                 // opal-webpack-loader will compile and include ruby files in the pack
-                test: /.(rb|js.rb)$/,
+                test: /(\.js)?\.rb$/,
                 use: [
                     {
                         loader: 'opal-webpack-loader',
