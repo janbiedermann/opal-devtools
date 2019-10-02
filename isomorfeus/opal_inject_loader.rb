@@ -1,3 +1,3 @@
 require 'opal'
-require 'opal-autoloader'
 require 'opal-browser'
+require 'opal-autoloader'

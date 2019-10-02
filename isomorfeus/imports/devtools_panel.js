@@ -25,6 +25,6 @@ global.NavLink = NavLink;
 global.Route = Route;
 global.Switch = Switch;
 
-import init_app from 'isomorfeus_loader.rb';
+import init_app from 'devtools_panel_loader.rb';
 init_app();
-Opal.load('isomorfeus_loader');
+Opal.load('devtools_panel_loader');

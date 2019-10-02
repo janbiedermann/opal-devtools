@@ -1,7 +1,7 @@
 const path = require('path');
 const OwlResolver = require('opal-webpack-loader/resolver');
 
-module.exports = {
+const common_config = {
     target: 'web',
     context: path.resolve(__dirname, '../isomorfeus'),
     mode: "production",
@@ -17,16 +17,7 @@ module.exports = {
             new OwlResolver('resolve', 'resolved') // resolve ruby files
         ]
     },
-
-    entry: {
-        "devtools-panel": [path.resolve(__dirname, '../isomorfeus/imports/devtools_panel.js')],
-        "opal-inject": [path.resolve(__dirname, '../isomorfeus/imports/opal_inject.js')]
-    },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, '../extension/devtools/panel'),
-        publicPath: '/'
-    },
+    target: 'web',
     module: {
         rules: [
             {
@@ -65,7 +56,6 @@ module.exports = {
                 // opal-webpack-loader will compile and include ruby files in the pack
                 test: /.(rb|js.rb)$/,
                 use: [
-                    { loader: "cache-loader" },
                     {
                         loader: 'opal-webpack-loader',
                         options: {
@@ -78,3 +68,32 @@ module.exports = {
         ]
     }
 };
+
+const chrome_config = {
+    entry: {
+        "devtools-panel": [path.resolve(__dirname, '../isomorfeus/imports/devtools_panel.js')],
+        "opal-inject": [path.resolve(__dirname, '../isomorfeus/imports/opal_inject.js')]
+    },
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../chrome_extension/devtools/panel'),
+        publicPath: '/'
+    }
+};
+
+const firefox_config = {
+    entry: {
+        "devtools-panel": [path.resolve(__dirname, '../isomorfeus/imports/devtools_panel.js')],
+        "opal-inject": [path.resolve(__dirname, '../isomorfeus/imports/opal_inject.js')]
+    },
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../firefox_extension/devtools/panel'),
+        publicPath: '/'
+    }
+};
+
+const chrome = Object.assign({}, common_config, chrome_config);
+const firefox = Object.assign({}, common_config, firefox_config);
+
+module.exports = [ chrome, firefox ];

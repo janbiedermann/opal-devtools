@@ -1,7 +1,7 @@
 Gemfile.lock
 yarn.lock
-extension/devtools/panel/devtools-panel.js
-extension/devtools/panel/opal-inject.js
+chrome_extension/devtools/panel/*.js
+firefox_extension/devtools/panel/*.js
 node_modules
 .bundle
 vendor/bundle
