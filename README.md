@@ -31,3 +31,6 @@ If typing doesn't appear to work, it's out of focus, try clicking directly on th
 - isomorfeus-redux
 - isomorfeus-react
 - OpalConsole, integrated.
+
+#### Credits
+- Tab completion code (Engine and Formatter) originally taken from @fkchang [opal-irb](https://github.com/fkchang/opal-irb)
