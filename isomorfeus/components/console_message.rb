@@ -6,12 +6,18 @@ class ConsoleMessage < React::Component::Base
     DIV(class_name: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")) do
       i = 0
       props.value.each do |val|
-        i += 1
+        `console.log("Val is:", typeof val)`
+        `console.log("Val is:", val)`
         if `(typeof val === 'string')`
-          DIV(key: i) { val }
+          val.split('\n').each do |line|
+            i += 1
+            DIV(key: i) { line }
+          end
         elsif `(typeof val === 'object' && val.type === 'link')`
+          i += 1
           DIV(key: i) { A(href: val.href, target: (val.target ? val.target : '')) { val.text }}
         else
+          i += 1
           DIV(key: i) { `JSON.stringify(val)` }
         end
       end

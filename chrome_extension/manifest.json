@@ -20,6 +20,9 @@
       "<all_urls>"
   ],
 
-  "devtools_page": "devtools/devtools-page.html"
+  "devtools_page": "devtools/devtools-page.html",
 
+  "background": {
+    "scripts": ["background_scripts/background.js"]
+  }
 }

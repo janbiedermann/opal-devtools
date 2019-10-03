@@ -25,6 +25,11 @@ global.NavLink = NavLink;
 global.Route = Route;
 global.Switch = Switch;
 
+chrome.runtime.onConnect.addListener(function(port) {});
+global.BackgroundConnection = chrome.runtime.connect({name: "opal-devtools-panel"});
+
 import init_app from 'devtools_panel_loader.rb';
 init_app();
 Opal.load('devtools_panel_loader');
+
+

@@ -561,22 +561,24 @@ class Console < React::Component::Base
       while(idx < state.point && curr + 1 < words.length)
         idx += words[++curr].length + 1
       end
-      completions = props.complete(words, curr, state.prompt_text)
-      if completions.length == 1
-        # Perform completion
-        words[curr] = completions[0]
-        point = -1
-        i = 0
-        while i <= curr
-          i += 1
-          point += words[i].length + 1
+      completions = props.complete.call(words, curr, state.prompt_text)
+      if completions
+        if completions.length == 1
+          # Perform completion
+          words[curr] = completions[0]
+          point = -1
+          i = 0
+          while i <= curr
+            i += 1
+            point += words[i].length + 1
+          end
+          set_state({ point: point, prompt_text: words.join(" "), argument: nil, last_command: COMMAND_DEFAULT }) { scroll_to_bottom }
+        elsif completions.length > 1
+          # show completions
+          log = state.log
+          log.push({ label: state.curr_label, command: state.prompt_text, message: [{ type: "completion", value: [completions.join("\t")] }] })
+          set_state({ curr_label: next_label, log: log, argument: nil, last_command: COMMAND_DEFAULT}) { scroll_to_bottom }
         end
-        set_state({ point: point, prompt_text: words.join(" "), argument: nil, last_command: COMMAND_DEFAULT }) { scroll_to_bottom }
-      elsif completions.length > 1
-        # show completions
-        log = state.log
-        log.push({ label: state.curr_label, command: state.prompt_text, message: [{ type: "completion", value: [completions.join("\t")] }] })
-        set_state({ curr_label: next_label, log: log, argument: nil, last_command: COMMAND_DEFAULT}) { scroll_to_bottom }
       end
     end
   end

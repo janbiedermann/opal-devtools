@@ -17,7 +17,14 @@
     "128": "icons/opal_devtools_128.png"
   },
 
-  "permissions": ["file:///*", "http://*/*", "https://*/*"],
+  "permissions": [
+    "<all_urls>",
+    "activeTab"
+  ],
 
-  "devtools_page": "devtools/devtools-page.html"
+  "devtools_page": "devtools/devtools-page.html",
+
+  "background": {
+    "scripts": ["background_scripts/background.js"]
+  }
 }
