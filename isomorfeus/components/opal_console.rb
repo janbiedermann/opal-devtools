@@ -170,8 +170,8 @@ class OpalConsole < React::Component::Base
       }
     else
       # magic ...
-      engine_source = `Opal.modules["components/opal_devtools/completion_engine"].toSource()`
-      formatter_source = `Opal.modules["components/opal_devtools/completion_formatter"].toSource()`
+      engine_source = `Opal.modules["components/opal_devtools/completion_engine"].toString()`
+      formatter_source = `Opal.modules["components/opal_devtools/completion_formatter"].toString()`
       javascript_prelude = <<~JAVASCRIPT
         Opal.modules["components/opal_devtools/completion_engine"] = #{engine_source};
         Opal.modules["components/opal_devtools/completion_formatter"] = #{formatter_source};
