@@ -22,6 +22,10 @@ class OpalConsole < React::Component::Base
     ruby_ref(:console).current.focus
   end
 
+  def is_firefox?
+    `navigator.userAgent.indexOf('Firefox') >= 0`
+  end
+
   def carriage_return
     state.count(state.count + 1) do
       ruby_ref(:console).current.carriage_return
