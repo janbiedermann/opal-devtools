@@ -9,6 +9,7 @@
 Currently provides a console to execute ruby in the webpage context.
 Works on Chrome, Firefox and Edge Canary.
 
+Screenshot:
 ![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot.png)
 ### Community and Support
 At the [Isomorfeus Framework Project](http://isomorfeus.com) 
