@@ -3,7 +3,7 @@
   align="center" title="Opal logo by Elia Schito combined with Tools" width="111" height="125" />
   <br/>
   Opal Developer Tools<br/>
-  <img src="https://img.shields.io/badge/Opal-Ruby%20💛%20JavaScript%20💛%20Firefox%20💛%20Chrome-yellow.svg?logo=ruby&style=social&logoColor=777"/>
+  <img src="https://img.shields.io/badge/Opal-Ruby%20💛%20JavaScript%20💛%20Firefox%20💛%20Chrome%20💛%20Edge%20Canary-yellow.svg?logo=ruby&style=social&logoColor=777"/>
 </h1>
 
 Currently provides a console to execute ruby in the webpage context.
