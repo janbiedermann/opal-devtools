@@ -1,6 +1,6 @@
 class OpalConsole < React::Component::Base
   WELCOME_MESSAGE = <<~TEXT
-  Welcome to Opal DevTools!
+  Welcome to Opal Developer Tools!
   Powered by Isomorfeus - the isomorphic, full stack Ruby application development environment -> isomorfeus.com
   Type 'help' for available commands.
   Type 'CTRL-?' to insert a '?' on keyboards where 'SHIFT-?' doesn't work.
