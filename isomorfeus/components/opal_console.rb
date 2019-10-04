@@ -1,14 +1,17 @@
 class OpalConsole < React::Component::Base
   WELCOME_MESSAGE = <<~TEXT
-  Welcome to Opal DevTools! Type 'help' for available commands.
-  Type 'CTRL-?' to insert a '?' on keyboards where 'SHIFT-?' would be required.
+  Welcome to Opal DevTools!
+  Powered by Isomorfeus - the isomorphic, full stack Ruby application development environment -> isomorfeus.com
+  Type 'help' for available commands.
+  Type 'CTRL-?' to insert a '?' on keyboards where 'SHIFT-?' doesn't work.
   TEXT
 
   HELP_TEXT = <<~TEXT
   Available commands:
-  inject_opal - inject Opal into current page, only works if the page does not have Opal.
+  inject_opal - inject Opal into current page, only works if the page does not have Opal already.
   debug_devtools - toggle debugging mode for Opal DevTools, shows generated code and other things.
   clear_screen - clear screen
+  go_iso - visit the Isomorfeus Project website
 
   Anything else is interpreted as ruby code and executed in the context of the web page.
   TEXT
@@ -167,6 +170,16 @@ class OpalConsole < React::Component::Base
       elsif command.start_with?('clear_screen')
         ruby_ref(:console).current.clear_screen
         carriage_return
+      elsif command.start_with?('go_iso')
+        javascript_code = "window.location='http://isomorfeus.com'"
+        %x{
+          chrome.devtools.inspectedWindow.eval(javascript_code, {}, function(result, exception_info) {
+            #{state.injected = false}
+            #{console_log("Welcome to the Isomorfeus Project :)")}
+            #{console_log("A first command to try: Isomorfeus.on_browser?")}
+            #{carriage_return}
+          })
+        }
       else
         execute_in_page(command)
       end
