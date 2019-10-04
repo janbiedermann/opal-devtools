@@ -47,6 +47,10 @@ only access to the DOM is possible.
 To go out of "inject" mode use `go_iso`, it loads the Isomorfeus website with Opal loaded, execution of Opal Ruby commands in page context
 is then possible again. Afterwards any other page with Opal loaded can be visited and Opal Ruby commands be executed.
 
+Command execution works with Opal 0.11.x and 1.x.
+Tab completion only works with Opal 1.x.
+Opal Versions < 0.11 are not supported.
+
 ### Based on
 - [opal](http://opalrb.com)
 - [opal-browser](https://github.com/opal/opal-browser)
