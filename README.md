@@ -15,14 +15,14 @@ At the [Isomorfeus Framework Project](http://isomorfeus.com)
 or
 - `yarn run debug_build` to include source maps for debugging, webpack will continue running and rebuild on file changes.
  
-For Chrome:
+For Chrome and Edge (Canary, the one based on Chromium, >= V79):
 - in Chrome extensions, turn on developer mode
 - load the `chrome_extension` directory.
 
 For Firefox:
 - in Firefox, Add-ons, the gear, select "Debug Add-on"
 - then "Load temporary Add-on"
-- select `manifest.json` in the `firefox_extension` directory. 
+- select `manifest.json` in the `firefox_extension` directory.
 
 ### Usage
 `help` show available commands.
