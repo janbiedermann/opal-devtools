@@ -1,4 +1,10 @@
-# Opal Devtools
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/opal_devtools.png" 
+  align="center" title="Opal logo by Elia Schito combined with Tools" width="111" height="125" />
+  <br/>
+  Opal Developer Tools<br/>
+  <img src="https://img.shields.io/badge/Opal-Ruby%20💛%20JavaScript%20💛%20Firefox%20💛%20Chrome-yellow.svg?logo=ruby&style=social&logoColor=777"/>
+</h1>
 
 Currently provides a console to execute ruby in the webpage context.
 Works on Chrome and Firefox.
@@ -40,12 +46,12 @@ To go out of "inject" mode use `go_iso`, it loads the Isomorfeus website with Op
 is then possible again. Afterwards any other page with Opal loaded can be visited and Opal Ruby commands be executed.
 
 ### Based on
-- opal
-- opal-browser
-- opal-webpack-loader
-- isomorfeus-redux
-- isomorfeus-react
-- OpalConsole, integrated.
+- [opal](http://opalrb.com)
+- [opal-browser](https://github.com/opal/opal-browser)
+- [opal-webpack-loader](https://github.com/isomorfeus/opal-webpack-loader)
+- [isomorfeus-redux](https://github.com/isomorfeus/isomorfeus-redux/tree/master/ruby)
+- [isomorfeus-react](https://github.com/isomorfeus/isomorfeus-react/tree/master/ruby)
+- [OpalConsole, integrated.](https://github.com/isomorfeus/opal-devtools/tree/master/isomorfeus/components)
 
 ### Credits
 - Tab completion engine originally taken from @fkchang [opal-irb](https://github.com/fkchang/opal-irb)
