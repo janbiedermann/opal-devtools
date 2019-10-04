@@ -1,4 +1,4 @@
-class OpalConsole < React::Component::Base
+class OpalConsole < LucidMaterial::Component::Base
   WELCOME_MESSAGE = <<~TEXT
   Welcome to Opal Developer Tools!
   Powered by Isomorfeus - the isomorphic, full stack Ruby application development environment -> isomorfeus.com
@@ -18,7 +18,6 @@ class OpalConsole < React::Component::Base
 
   state.count = 1
   state.debug = false
-  state.injected = false
   ref :console
 
   event_handler :focus do |_|
@@ -86,7 +85,7 @@ class OpalConsole < React::Component::Base
     console_log(javascript_code) if state.debug
 
     # Property "useContentScriptContext" is unsupported by Firefox
-    if state.injected
+    if app_store.inject_mode
       if is_firefox?
         %x{
           let tabId = chrome.devtools.inspectedWindow.tabId;
@@ -119,7 +118,7 @@ class OpalConsole < React::Component::Base
   end
 
   def inject_to_page
-    unless state.injected
+    unless app_store.inject_mode
       %x{
         let tabId = chrome.devtools.inspectedWindow.tabId;
         window.addEventListener('OpalDevtoolsResult', function(event) {
@@ -145,7 +144,7 @@ class OpalConsole < React::Component::Base
       chrome.devtools.inspectedWindow.eval("if (typeof Opal !== 'undefined') { Opal.RUBY_ENGINE_VERSION }", {}, function(result, exception_info) {
         if (!result) {
           global.BackgroundConnection.postMessage({ tabId: tabId, injectScript: "/devtools/panel/opal-inject.js" });
-          #{state.injected = true};
+          #{app_store.inject_mode= true};
           #{console_log("Opal injected into Page.")};
         } else {
           #{console_log("Page already has Opal version #{`result`}")}
@@ -174,7 +173,7 @@ class OpalConsole < React::Component::Base
         javascript_code = "window.location='http://isomorfeus.com'"
         %x{
           chrome.devtools.inspectedWindow.eval(javascript_code, {}, function(result, exception_info) {
-            #{state.injected = false}
+            #{app_store.inject_mode = false}
             #{console_log("Welcome to the Isomorfeus Project :)")}
             #{console_log("A first command to try: Isomorfeus.on_browser?")}
             #{carriage_return}
@@ -198,7 +197,7 @@ class OpalConsole < React::Component::Base
       OpalDevtools::CompletionEngine.complete("#{prompt_text}")
     RUBY
     javascript_code = ruby_to_javascript(ruby_code, raw: true)
-    if state.injected
+    if app_store.inject_mode
       if is_firefox?
         %x{
           let tabId = chrome.devtools.inspectedWindow.tabId;

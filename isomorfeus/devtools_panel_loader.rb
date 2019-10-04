@@ -1,4 +1,5 @@
 require 'opal'
+require 'opal-activesupport'
 require 'opal-parser'
 require 'opal/compiler'
 require 'opal-autoloader'

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "^4.4.3",
     "@material-ui/styles": "^4.5.0",
     "opal-webpack-loader": "^0.9.6",
     "react": "^16.10.1",
