@@ -31,11 +31,7 @@ chrome.devtools.panels.create(
   chrome.runtime.onConnect.addListener(function(port) {
       port.onMessage.addListener(function (message, sender) {
           if (panel_window && message.tabId && message.fromConsole) {
-              console.log("opal-devtools-page received message:", message);
-              console.log("will dispatch", message);
               let event = new CustomEvent('OpalDevtoolsResult', { detail: message });
-              console.log("dispatching event:", event);
-              console.log("window:", panel_window);
               panel_window.dispatchEvent(event);
           }
       });

@@ -84,10 +84,23 @@ class OpalConsole < React::Component::Base
 
     # Property "useContentScriptContext" is unsupported by Firefox
     if state.injected
-      %x{
-        let tabId = chrome.devtools.inspectedWindow.tabId;
-        global.BackgroundConnection.postMessage({ tabId: tabId, injectCode: javascript_code })
-      }
+      if is_firefox?
+        %x{
+          let tabId = chrome.devtools.inspectedWindow.tabId;
+          global.BackgroundConnection.postMessage({ tabId: tabId, injectCode: javascript_code, completion: false })
+        }
+      else
+        %x{
+          chrome.devtools.inspectedWindow.eval(javascript_code, { useContentScriptContext: true }, function(result, exception_info) {
+            #{console_log(`result`)}
+            if (exception_info) {
+              if (exception_info.isError) { #{console_log(`exception_info.description`)} }
+              if (exception_info.isException) { #{console_log(`exception_info.value`)} }
+            }
+            #{carriage_return}
+          });
+        }
+      end
     else
       %x{
         chrome.devtools.inspectedWindow.eval(javascript_code, {}, function(result, exception_info) {
@@ -108,13 +121,17 @@ class OpalConsole < React::Component::Base
         let tabId = chrome.devtools.inspectedWindow.tabId;
         window.addEventListener('OpalDevtoolsResult', function(event) {
           let message = event.detail;
-          console.log("Panel received:", message);
           if (message && message.tabId == tabId) {
             if (message.fromConsole) {
               if (message.result) {
-                #{console_log(`message.result[0]`)}
+                if (message.completion) {
+                  let parsed_result = JSON.parse(message.result);
+                  #{ruby_ref(:console)&.current&.show_completions(`parsed_result[2]`, `parsed_result[1]`)}
+                } else {
+                  #{console_log(`message.result[0]`)}
+                  #{carriage_return}
+                }
               }
-              #{carriage_return}
             }
           }
         });
@@ -124,7 +141,6 @@ class OpalConsole < React::Component::Base
       let tabId = chrome.devtools.inspectedWindow.tabId;
       chrome.devtools.inspectedWindow.eval("if (typeof Opal !== 'undefined') { Opal.RUBY_ENGINE_VERSION }", {}, function(result, exception_info) {
         if (!result) {
-          console.log("BackgroundConnection:", global.BackgroundConnection);
           global.BackgroundConnection.postMessage({ tabId: tabId, injectScript: "/devtools/panel/opal-inject.js" });
           #{state.injected = true};
           #{console_log("Opal injected into Page.")};
@@ -160,32 +176,47 @@ class OpalConsole < React::Component::Base
     end
   end
 
-  def completion(words, curr, prompt_text)
+  def engine_source
+    @engine_source ||= `Opal.modules["components/opal_devtools/completion_engine"].toString()`
+  end
+
+  def completion(prompt_text)
     ruby_code = <<~RUBY
-        completions = OpalDevtools::CompletionEngine.complete("#{prompt_text}")
-        OpalDevtools::CompletionFormatter.format(completions[2])
+      OpalDevtools::CompletionEngine.complete("#{prompt_text}")
     RUBY
     javascript_code = ruby_to_javascript(ruby_code, raw: true)
     if state.injected
-
-      %x{
-        let tabId = chrome.devtools.inspectedWindow.tabId;
-        global.BackgroundConnection.postMessage({ tabId: tabId, injectCode: javascript_code })
-      }
+      if is_firefox?
+        %x{
+          let tabId = chrome.devtools.inspectedWindow.tabId;
+          global.BackgroundConnection.postMessage({ tabId: tabId, injectCode: javascript_code, completion: true })
+        }
+      else
+        %x{
+            chrome.devtools.inspectedWindow.eval(javascript_code, { useContentScriptContext: true }, function(result, exception_info) {
+              let parsed_result = JSON.parse(result);
+              #{ruby_ref(:console)&.current&.show_completions(`parsed_result[2]`, `parsed_result[1]`)}
+              if (exception_info) {
+                if (exception_info.isError) { #{console_log(`exception_info.description`)} }
+                if (exception_info.isException) { #{console_log(`exception_info.value`)} }
+              }
+              #{carriage_return}
+            });
+          }
+      end
     else
       # magic ...
-      engine_source = `Opal.modules["components/opal_devtools/completion_engine"].toString()`
-      formatter_source = `Opal.modules["components/opal_devtools/completion_formatter"].toString()`
       javascript_prelude = <<~JAVASCRIPT
-        Opal.modules["components/opal_devtools/completion_engine"] = #{engine_source};
-        Opal.modules["components/opal_devtools/completion_formatter"] = #{formatter_source};
+        if (!Opal.modules["components/opal_devtools/completion_engine"]) {
+          Opal.modules["components/opal_devtools/completion_engine"] = #{engine_source};
+        }
         Opal.load("components/opal_devtools/completion_engine");
-        Opal.load("components/opal_devtools/completion_formatter");
       JAVASCRIPT
       javascript_code = javascript_prelude + javascript_code
       %x{
         chrome.devtools.inspectedWindow.eval(javascript_code, {}, function(result, exception_info) {
-          #{console_log(`result`)}
+          let parsed_result = JSON.parse(result);
+          #{ruby_ref(:console)&.current&.show_completions(`parsed_result[2]`, `parsed_result[1]`)}
           if (exception_info) {
             if (exception_info.isError) { #{console_log(`exception_info.description`)} }
             if (exception_info.isException) { #{console_log(`exception_info.value`)} }
@@ -199,6 +230,23 @@ class OpalConsole < React::Component::Base
   render do
     Console(ref: ref(:console), autofocus: true, prompt_label: "#{state.count} > ", welcome_message: WELCOME_MESSAGE, on_click: :focus,
             handler: proc { |c| handler(c) },
-            complete: proc { |words, curr, prompt_text| completion(words, curr, prompt_text) })
+            complete: proc { |t| completion(t) })
+  end
+
+  def window_click_handler
+    @window_click_handler ||= %x{
+                                function(event) {
+                                  #{ruby_ref(:console)&.current&.focus}
+                                }
+                              }
+  end
+
+  component_did_mount do
+    `window.addEventListener('click', #{window_click_handler})`
+    ruby_ref(:console)&.current&.focus
+  end
+
+  component_will_unmount do
+    `window.removeEventListener('click', #{window_click_handler})`
   end
 end

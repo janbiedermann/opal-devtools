@@ -273,18 +273,19 @@ class Console < React::Component::Base
 
   event_handler :change do |_|
     idx = 0
+    ref(:child_typer).JS[:current].JS[:value] = state.typer + ref(:child_typer).JS[:current].JS[:value] if state.keep_typer
     while idx < state.typer.length && idx < ref(:child_typer).JS[:current].JS[:value].JS[:length]
-      idx += 1
       break if state.typer[idx] != ref(:child_typer).JS[:current].JS[:value][idx]
+      idx += 1
     end
     insert = ref(:child_typer).JS[:current].JS[:value][idx..-1]
     replace = state.typer.length - idx
     if state.last_command == COMMAND_SEARCH
-      set_state({ search_text: (state.search_init ? insert : text_insert(insert, state.search_text, replace)), typer: ref(:child_typer).JS[:current].JS[:value], }) do
+      set_state({ keep_typer: false, search_text: (state.search_init ? insert : text_insert(insert, state.search_text, replace)), typer: ref(:child_typer).JS[:current].JS[:value] }) do
         trigger_search
       end
     else
-      set_state(console_insert(insert, replace).merge({ typer: ref(:child_typer).JS[:current].JS[:value], last_command: COMMAND_DEFAULT })) do
+      set_state(console_insert(insert, replace).merge({ keep_typer: false, typer: ref(:child_typer).JS[:current].JS[:value], last_command: COMMAND_DEFAULT })) do
         scroll_to_bottom
       end
     end
@@ -298,10 +299,7 @@ class Console < React::Component::Base
   end
 
   component_did_mount do
-    if props.autofocus
-      ref(:child_typer).JS[:current].JS.focus()
-      state.focus(true)
-    end
+    focus if props.autofocus
     state.curr_label(next_label) { scroll_to_bottom }
   end
 
@@ -322,9 +320,9 @@ class Console < React::Component::Base
   end
 
   def log(*messages)
-    log = get_safe_log
-    log[state.log.length-1][:message].push({value: messages})
-    state.log(log) { scroll_if_bottom }
+    safe_log = get_safe_log
+    safe_log[state.log.length-1][:message].push({value: messages})
+    state.log(safe_log) { scroll_if_bottom }
   end
 
   def focus
@@ -553,34 +551,21 @@ class Console < React::Component::Base
   end
 
   def complete
-    if props.complete
-      # Split text and find current word
-      words = state.prompt_text.split(" ")
-      curr = 0
-      idx = words[0].length
-      while(idx < state.point && curr + 1 < words.length)
-        idx += words[++curr].length + 1
-      end
-      completions = props.complete.call(words, curr, state.prompt_text)
-      if completions
-        if completions.length == 1
-          # Perform completion
-          words[curr] = completions[0]
-          point = -1
-          i = 0
-          while i <= curr
-            i += 1
-            point += words[i].length + 1
-          end
-          set_state({ point: point, prompt_text: words.join(" "), argument: nil, last_command: COMMAND_DEFAULT }) { scroll_to_bottom }
-        elsif completions.length > 1
-          # show completions
-          log = state.log
-          log.push({ label: state.curr_label, command: state.prompt_text, message: [{ type: "completion", value: [completions.join("\t")] }] })
-          set_state({ curr_label: next_label, log: log, argument: nil, last_command: COMMAND_DEFAULT}) { scroll_to_bottom }
-        end
-      end
+    props.complete.call(state.prompt_text) if props.complete
+  end
+
+  def show_completions(completions, suggested_prompt = nil)
+    return unless completions
+    suggested_prompt = state.prompt_text unless suggested_prompt
+    if completions.size == 1
+      set_state({ point: suggested_prompt.size, prompt_text: suggested_prompt, argument: nil, last_command: COMMAND_DEFAULT }) { scroll_to_bottom }
+    elsif completions.size > 1
+      grouped_completions = completions.each_slice(4).map { |group| group.join("\t") }
+      safe_log = get_safe_log
+      safe_log.push({ label: state.curr_label, command: suggested_prompt, message: [{ type: :completion, value: grouped_completions }] })
+      set_state({ keep_typer: true, point: suggested_prompt.size, prompt_text: suggested_prompt, curr_label: next_label, log: safe_log, argument: nil, last_command: COMMAND_DEFAULT}) { scroll_to_bottom }
     end
+    focus
   end
 
   # Keyboard Macros
