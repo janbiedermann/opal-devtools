@@ -7,7 +7,7 @@
 </h1>
 
 Currently provides a console to execute ruby in the webpage context.
-Works on Chrome and Firefox.
+Works on Chrome, Firefox and Edge Canary.
 
 ### Community and Support
 At the [Isomorfeus Framework Project](http://isomorfeus.com) 
