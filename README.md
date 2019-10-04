@@ -9,7 +9,7 @@ Works on Chrome and Firefox.
 - `yarn run production_build` for a minified build
 
 or
-- `yarn run debug_build` to include source maps for debugging.
+- `yarn run debug_build` to include source maps for debugging, webpack will continue running and rebuild on file changes.
  
 For Chrome:
 - in Chrome extensions, turn on developer mode
@@ -20,9 +20,10 @@ For Firefox:
 - then "Load temporary Add-on"
 - select `manifest.json` in the `firefox_extension` directory. 
 
-If typing doesn't appear to work, it's out of focus, try clicking directly on the cursor.
+### Community and Support
+At the [Isomorfeus Framework Project](http://isomorfeus.com) 
 
-#### Using
+### Based on
 - opal
 - opal-browser
 - opal-webpack-loader
@@ -30,5 +31,5 @@ If typing doesn't appear to work, it's out of focus, try clicking directly on th
 - isomorfeus-react
 - OpalConsole, integrated.
 
-#### Credits
+### Credits
 - Tab completion engine originally taken from @fkchang [opal-irb](https://github.com/fkchang/opal-irb)

@@ -1,3 +1,5 @@
+# originally taken from https://github.com/fkchang/opal-irb
+
 module OpalDevtools
   # CompletionEngine for tab completes
   class CompletionEngine
