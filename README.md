@@ -3,7 +3,7 @@
   align="center" title="Opal logo by Elia Schito combined with Tools" width="111" height="125" />
   <br/>
   Opal Developer Tools<br/>
-  <img src="https://img.shields.io/badge/Opal-Ruby%20💛%20JavaScript%20💛%20Firefox%20💛%20Chrome%20💛%20Edge%20Canary-yellow.svg?logo=ruby&style=social&logoColor=777"/>
+  <img src="https://img.shields.io/badge/Opal-Ruby%20💛%20JavaScript%20💛%20Firefox%20💛%20Chrome%20💛%20Edge%20Canary%20💛%20Opera%20💛%20Vivaldi-yellow.svg?logo=ruby&style=social&logoColor=777"/>
 </h1>
 
 Currently provides a console to execute ruby in the webpage context.
@@ -23,8 +23,8 @@ At the [Isomorfeus Framework Project](http://isomorfeus.com)
 or
 - `yarn run debug_build` to include source maps for debugging, webpack will continue running and rebuild on file changes.
  
-For Chrome and Edge (Canary, the one based on Chromium, >= V79):
-- in Chrome extensions, turn on developer mode
+For Chrome, Edge (Canary, the one based on Chromium, >= V79), Opera, Vivaldi:
+- in Extensions, turn on developer mode
 - load the `chrome_extension` directory.
 
 For Firefox:
