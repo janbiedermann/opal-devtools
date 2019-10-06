@@ -144,7 +144,7 @@ class OpalConsole < LucidMaterial::Component::Base
       chrome.devtools.inspectedWindow.eval("if (typeof Opal !== 'undefined') { Opal.RUBY_ENGINE_VERSION }", {}, function(result, exception_info) {
         if (!result) {
           global.BackgroundConnection.postMessage({ tabId: tabId, injectScript: "/devtools/panel/opal-inject.js" });
-          #{app_store.inject_mode= true};
+          #{app_store.inject_mode = true};
           #{console_log("Opal injected into Page.")};
         } else {
           #{console_log("Page already has Opal version #{`result`}")}
@@ -240,7 +240,7 @@ class OpalConsole < LucidMaterial::Component::Base
   end
 
   render do
-    Console(ref: ref(:console), autofocus: true, prompt_label: "#{state.count} > ", welcome_message: WELCOME_MESSAGE, on_click: :focus,
+    Console(key: 'oc', ref: ref(:console), autofocus: true, prompt_label: "#{state.count} > ", welcome_message: WELCOME_MESSAGE, on_click: :focus,
             handler: proc { |c| handler(c) },
             complete: proc { |t| completion(t) })
   end

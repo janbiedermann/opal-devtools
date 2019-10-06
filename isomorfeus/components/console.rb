@@ -707,31 +707,31 @@ class Console < React::Component::Base
   end
 
   render do
-    DIV(ref: ref(:child_container),
+    i = 0
+    DIV(key: 1, ref: ref(:child_container),
         class_name: "react-console-container " + (state.focus ? "react-console-focus" : "react-console-nofocus"),
         on_click: :focus) do
       if props.welcome_message
-        DIV(class_name: "react-console-message react-console-welcome") { props.welcome_message }
+        DIV(key: i += 1, class_name: "react-console-message react-console-welcome") { props.welcome_message }
       end
-      i = 0
+
 		  state.log.each do |val|
-        i += 1
-			  ConsolePrompt(label: val[:label], value: val[:command])
+			  ConsolePrompt(key: i += 1, label: val[:label], value: val[:command])
         val[:message].each do |v|
-          ConsoleMessage(key: i, type: v[:type], value: v[:value])
+          ConsoleMessage(key: i += 1, type: v[:type], value: v[:value])
         end
       end
       if state.accept_input
-        ConsolePrompt(label: state.curr_label, value: state.prompt_text, point: state.point, argument: state.argument)
+        ConsolePrompt(key: i += 1, label: state.curr_label, value: state.prompt_text, point: state.point, argument: state.argument)
 		  end
-      DIV(style: { overflow: "hidden", height: 1, width: 1 }) do
-	      TEXTAREA(ref: ref(:child_typer), class_name: "react-console-typer", auto_complete: "off", auto_correct: "off",
+      DIV(key: i += 1, style: { overflow: "hidden", height: 1, width: 1 }) do
+	      TEXTAREA(key: 1, ref: ref(:child_typer), class_name: "react-console-typer", auto_complete: "off", auto_correct: "off",
                  auto_capitalize: "off", spell_check: "false",
                  style: { outline: "none", color: "transparent", backgroundColor: "transparent",
                           border: "none", resize: "none", overflow: "hidden" },
                  on_blur: :blur, on_key_down: :key_down, on_change: :change, on_paste: :paste)
       end
-			DIV(ref: ref(:child_focus)) { "\u00A0" }
+			DIV(key: i += 1, ref: ref(:child_focus)) { "\u00A0" }
     end
 	end
 end

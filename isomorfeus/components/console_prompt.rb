@@ -49,12 +49,12 @@ class ConsolePrompt < React::Component::Base
   def render_value
     return props.value if props.point < 0
     if props.point == props.value.length
-       SPAN "#{props.value}"
+       SPAN({key: 'value'},  "#{props.value}")
        SPAN({ref: ref(:child_cursor), key: 'cursor', class_name: "react-console-cursor"}, "\u00A0")
     else
-       SPAN props.value[0...(props.point)]
+       SPAN({key: 'value'}, props.value[0...(props.point)])
        SPAN({ref: ref(:child_cursor), key: 'cursor', class_name: "react-console-cursor"}, props.value[props.point...(props.point+1)])
-       SPAN props.value[(props.point+1)..-1]
+       SPAN({key: 'value_ext'}, props.value[(props.point+1)..-1])
     end
   end
 
@@ -68,10 +68,10 @@ class ConsolePrompt < React::Component::Base
         label = ''
       end
     end
-    DIV(class_name: "react-console-prompt-box") do
-      SPAN(class_name: "react-console-prompt-label") { label }
-			SPAN(class_name: "react-console-prompt-argument") { props.argument }
-      SPAN(class_name: "react-console-prompt") { render_value }
+    DIV(key: 'cp1', class_name: "react-console-prompt-box") do
+      SPAN(key: 'cp2', class_name: "react-console-prompt-label") { label }
+			SPAN(key: 'cp3', class_name: "react-console-prompt-argument") { props.argument }
+      SPAN(key: 'cp4', class_name: "react-console-prompt") { render_value }
     end
   end
 end
