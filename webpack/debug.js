@@ -13,9 +13,9 @@ const common_config = {
         maxEntrypointSize: 20000000
     },
     // use one of these below for source maps
-    devtool: 'source-map', // this works well, good compromise between accuracy and performance
+    // devtool: 'source-map', // this works well, good compromise between accuracy and performance
     // devtool: 'cheap-eval-source-map', // less accurate
-    // devtool: 'inline-source-map', // slowest
+    devtool: 'inline-source-map', // slowest
     // devtool: 'inline-cheap-source-map',
     resolve: {
         plugins: [
