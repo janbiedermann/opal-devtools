@@ -7,8 +7,8 @@
   "homepage_url": "https://github.com/isomorfeus/opal-devtools",
 
   "icons": {
-    "48": "icons/opal_devtools_48.png",
-    "128": "icons/opal_devtools_128.png"
+    "48": "icons/opal_devtools_48_t.png",
+    "128": "icons/opal_devtools_128_t.png"
   },
 
   "background": {
