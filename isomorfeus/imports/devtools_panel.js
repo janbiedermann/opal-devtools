@@ -23,15 +23,14 @@ global.Switch = Switch;
 
 import * as Mui from '@material-ui/core'
 import * as MuiStyles from '@material-ui/styles'
+import * as MuiLab from '@material-ui/lab'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 global.Mui = Mui;
 global.MuiStyles = MuiStyles;
-import MuiIconsMenu from '@material-ui/icons/Menu'
-import MuiIconsChevronLeft from '@material-ui/icons/ChevronLeft'
-global.MuiIcons = {
-    Menu: MuiIconsMenu,
-    ChevronLeft: MuiIconsChevronLeft
-};
-
+global.MuiLab = MuiLab
+global.ExpandMoreIcon = ExpandMoreIcon;
+global.ChevronRightIcon = ChevronRightIcon;
 chrome.runtime.onConnect.addListener(function(port) {});
 global.BackgroundConnection = chrome.runtime.connect({name: "opal-devtools-panel"});
 
