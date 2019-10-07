@@ -134,7 +134,9 @@ class OpalDevtoolsAppBar < LucidMaterial::Component::Base
               if app_store.inject_mode
                 "Injected Opal #{RUBY_ENGINE_VERSION}"
               elsif app_store.opal_version
-                "On page: Opal #{app_store.opal_version}"
+                warn = ""
+                warn = " (limited support)" if app_store.opal_version.start_with?("0.")
+                "On page: Opal #{app_store.opal_version}#{warn}"
               else
                 "On page: no Opal"
               end
