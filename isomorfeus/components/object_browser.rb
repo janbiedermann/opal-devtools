@@ -117,6 +117,8 @@ class ObjectBrowser < LucidMaterial::Component::Base
   end
 
   render do
+    @collapse_icon ||= get_react_element { ExpandMoreIcon() }
+    @expand_icon ||= get_react_element { ChevronRightIcon() }
     key = 0
     Mui.Toolbar(key: key += 1) do
       Mui.Typography({key: key += 1, class_name: styles.title, variant: :h6}, "Object Browser")
@@ -125,7 +127,7 @@ class ObjectBrowser < LucidMaterial::Component::Base
       end
     end
     Mui.Container(key: key += 1) do
-      MuiLab.TreeView(key: key += 1, on_node_toggle: :handle_expansion, default_collapse_icon: ExpandMoreIcon(), default_expand_icon: ChevronRightIcon()) do
+      MuiLab.TreeView(key: key += 1, on_node_toggle: :handle_expansion, default_collapse_icon: @collapse_icon, default_expand_icon: @expand_icon) do
         state.classes.sort.each do |class_name|
           MuiLab.TreeItem(key: key += 1, node_id: class_name, label: class_name) do
             if object_registry.key?(class_name)
