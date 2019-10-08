@@ -1,6 +1,6 @@
 {
   "name": "OpalDevtools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "production_build": "parallel-webpack --config=webpack/production.js --max-tries=1 --no-stats",
