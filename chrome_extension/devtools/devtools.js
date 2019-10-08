@@ -5,8 +5,9 @@ This script is run whenever the devtools are open.
 In here, we can create our panel.
 */
 
-function check_page_for_opal(count) {
-    if (count && count > 5) { return; }
+let count = 0;
+
+function check_page_for_opal() {
     chrome.devtools.inspectedWindow.eval(
         `var framework = null;
         var opal_version = null;
@@ -22,13 +23,14 @@ function check_page_for_opal(count) {
         [opal_version, framework, devtools_support]`,
         {},
         function(res, error) {
-            if (!res[0]) {
+            if (!res[0] && count < 6) {
                 // browser possibly did not finish loading the page, so try again.
-                if (!count) { count = 1; } else { count++; }
+                count++;
                 setTimeout(function() {
-                    check_page_for_opal(count);
+                    check_page_for_opal();
                 }, 1000);
             } else {
+                count = 0;
                 let event = new CustomEvent('OpalDevtoolsPageCheck', {detail: {opal_version: res[0], framework: res[1], devtools_support: res[2]}});
                 panel_window.dispatchEvent(event);
             }
