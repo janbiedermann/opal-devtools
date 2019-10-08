@@ -5,7 +5,8 @@ This script is run whenever the devtools are open.
 In here, we can create our panel.
 */
 
-function check_page_for_opal() {
+function check_page_for_opal(count) {
+    if (count && count > 5) { return; }
     chrome.devtools.inspectedWindow.eval(
         `var framework = null;
         var opal_version = null;
@@ -21,21 +22,29 @@ function check_page_for_opal() {
         [opal_version, framework, devtools_support]`,
         {},
         function(res, error) {
-            let event = new CustomEvent('OpalDevtoolsPageCheck', { detail: { opal_version: res[0], framework: res[1], devtools_support: res[2] }});
-            panel_window.dispatchEvent(event);
+            if (!res[0]) {
+                // browser possibly did not finish loading the page, so try again.
+                if (!count) { count = 1; } else { count++; }
+                setTimeout(function() {
+                    check_page_for_opal(count);
+                }, 1000);
+            } else {
+                let event = new CustomEvent('OpalDevtoolsPageCheck', {detail: {opal_version: res[0], framework: res[1], devtools_support: res[2]}});
+                panel_window.dispatchEvent(event);
+            }
         });
-};
+}
 
 let panel_window = null;
 
 function handleShown(p_window) {
-  panel_window = p_window;
-  check_page_for_opal();
-  chrome.devtools.network.onNavigated.addListener(check_page_for_opal);
+    panel_window = p_window;
+    check_page_for_opal();
+    chrome.devtools.network.onNavigated.addListener(check_page_for_opal);
 }
 
 function handleHidden() {
-  chrome.devtools.network.onNavigated.removeListener(check_page_for_opal);
+    chrome.devtools.network.onNavigated.removeListener(check_page_for_opal);
 }
 
 /**
@@ -43,21 +52,21 @@ Create a panel, and add listeners for panel show/hide events.
 */
 
 chrome.devtools.panels.create(
-  "Opal",
-  "/icons/opal_devtools_48.png",
-  "/devtools/panel/panel.html",
-  function(panel) {
-    panel.onShown.addListener(handleShown);
-    panel.onHidden.addListener(handleHidden);
+    "Opal",
+    "/icons/opal_devtools_48.png",
+    "/devtools/panel/panel.html",
+    function(panel) {
+        panel.onShown.addListener(handleShown);
+        panel.onHidden.addListener(handleHidden);
 
-  /** communicate with page */
-  chrome.runtime.onConnect.addListener(function(port) {
-      port.onMessage.addListener(function (message, sender) {
-          if (panel_window && message.tabId && message.fromConsole) {
-              let event = new CustomEvent('OpalDevtoolsResult', { detail: message });
-              panel_window.dispatchEvent(event);
-          }
-      });
-  });
-  chrome.runtime.connect({name: "opal-devtools-page"});
-});
+        /** communicate with page */
+        chrome.runtime.onConnect.addListener(function(port) {
+            port.onMessage.addListener(function (message, sender) {
+                if (panel_window && message.tabId && message.fromConsole) {
+                    let event = new CustomEvent('OpalDevtoolsResult', { detail: message });
+                    panel_window.dispatchEvent(event);
+                }
+            });
+        });
+        chrome.runtime.connect({name: "opal-devtools-page"});
+    });
