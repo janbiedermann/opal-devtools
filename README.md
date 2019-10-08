@@ -24,10 +24,10 @@ At the [Isomorfeus Framework Project](http://isomorfeus.com)
 
 ### Installation
 
-#### Firefox
+#### Firefox:
 [Opal Developer Tools from Mozilla AddOns](https://addons.mozilla.org/addon/opaldevtools/)
 
-#### Chromium Browsers (Chrome, Edge Canary, Opera, Vivaldi)
+#### Chromium Browsers (Chrome, Edge Canary, Opera, Vivaldi):
 TBD
 
 #### From the Repository
@@ -51,7 +51,7 @@ For Firefox:
 ### Usage
 
 #### Console
-`help` show available commands.
+`help` shows available commands.
 
 Commands can by default only be executed if Opal is loaded on the page.
 
@@ -80,7 +80,7 @@ gem 'opal', github: 'janbiedermann/opal', branch: 'es6_modules_1_1'
 Opal projects are very fast and easy to build with [opal_webpack_loader](https://github.com/isomorfeus/opal-webpack-loader), enabling hot relaoding,
 the object registry for Opal Developer Tools and other features.
 
-### Based on
+### Based on 
 - [opal](http://opalrb.com)
 - [opal-browser](https://github.com/opal/opal-browser)
 - [opal-webpack-loader](https://github.com/isomorfeus/opal-webpack-loader)
