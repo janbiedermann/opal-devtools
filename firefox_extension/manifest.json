@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "OpalDevtools",
+  "name": "OpalDeveloperTools",
   "description": "Tools for working with Opal Ruby in the browser.",
   "version": "0.0.1",
   "author": "Jan Biedermann",
