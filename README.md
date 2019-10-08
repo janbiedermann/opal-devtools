@@ -9,12 +9,24 @@
 Currently provides a console to execute ruby in the webpage context.
 Works on Chrome, Firefox and Edge Canary.
 
-Screenshot:
-![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot.png)
+Screenshots:
+- Console:
+![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot_console_firefox.png)
+- Object Browser:
+![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot_object_browser_firefox.png)
+
 ### Community and Support
 At the [Isomorfeus Framework Project](http://isomorfeus.com) 
 
 ### Installation
+
+#### Firefox
+[Opal Developer Tools from Mozilla AddOns](https://addons.mozilla.org/addon/opaldevtools/)
+
+#### Chromium Browsers (Chrome, Edge Canary, Opera, Vivaldi)
+TBD
+
+#### From the Repository
 - clone
 - `yarn install`
 - `bundle install`
@@ -33,6 +45,8 @@ For Firefox:
 - select `manifest.json` in the `firefox_extension` directory.
 
 ### Usage
+
+#### Console
 `help` show available commands.
 
 Commands can by default only be executed if Opal is loaded on the page.
@@ -50,6 +64,17 @@ is then possible again. Afterwards any other page with Opal loaded can be visite
 Command execution works with Opal 0.11.x and 1.x.
 Tab completion only works with Opal 1.x.
 Opal Versions < 0.11 are not supported.
+
+#### Object Browser
+
+The Object Browser requires the inspected app to be build with the es6_modules_1_1 branch and a variable to be injected in the build, to enable the
+object registry. Please see: [es6_modules_1_1](https://github.com/opal/opal/pull/1976#issuecomment-538459551).
+Include in your Gemfile:
+```
+gem 'opal', github: 'janbiedermann/opal', branch: 'es6_modules_1_1'
+```
+Opal projects are very fast and easy to build with [opal_webpack_loader](https://github.com/isomorfeus/opal-webpack-loader), enabling hot relaoding,
+the object registry for Opal Developer Tools and other features.
 
 ### Based on
 - [opal](http://opalrb.com)
