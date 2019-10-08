@@ -5,7 +5,11 @@ class OpalDevtoolsAppBar < LucidMaterial::Component::Base
     { root: { flexGrow: 1 },
       title: { flexGrow: 1, marginLeft: 10 },
       button: { textTransform: :none, marginRight: theme.spacing(2) },
-      appbar: { backgroundColor: '#7A8DBE', boxShadow: :none }}
+      appbar: { backgroundColor: '#7A8DBE',
+                boxShadow: :none,
+                position: :fixed,
+                top: 0,
+                width: '100%' }}
   end
 
   event_handler :leave_inject_mode do
@@ -123,7 +127,7 @@ class OpalDevtoolsAppBar < LucidMaterial::Component::Base
     fw = app_store.framework ? app_store.framework : nil
     DIV(key: 1, class_name: styles.root) do
       Mui.CssBaseline do
-        Mui.AppBar(key: 1, class_name: styles.appbar, position: :sticky, color: :default) do
+        Mui.AppBar(key: 1, class_name: styles.appbar, position: :static, color: :default) do
           Mui.Toolbar(key: 1, variant: :dense) do
             i = 0
             IMG(key: i += 1, src: "/icons/opal_devtools_128_t.png", height: 32, width: 32)
@@ -135,7 +139,13 @@ class OpalDevtoolsAppBar < LucidMaterial::Component::Base
                 "Injected Opal #{RUBY_ENGINE_VERSION}"
               elsif app_store.opal_version
                 warn = ""
-                warn = " (limited support)" if app_store.opal_version.start_with?("0.")
+                if !app_store.opal_version.start_with?("1.")
+                  if app_store.opal_version.start_with?("0.11")
+                    warn = " (limited support)"
+                  else
+                    warn = " (not supported)"
+                  end
+                end
                 "On page: Opal #{app_store.opal_version}#{warn}"
               else
                 "On page: no Opal"

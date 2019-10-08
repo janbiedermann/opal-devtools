@@ -1,4 +1,7 @@
 class IsomorfeusDevtoolsApp < LucidMaterial::App::Base
+  styles do |theme|
+    { container: { marginTop: 60 }}
+  end
   app_store.inject_mode = false
   app_store.active_view = :console
   app_store.show_menu_drawer = false
@@ -8,11 +11,14 @@ class IsomorfeusDevtoolsApp < LucidMaterial::App::Base
   app_store.object_registry = {}
 
   render do
-    OpalDevtoolsAppBar(key: 1, class_name: styles.appbar)
-    if app_store.active_view == :object_browser
-      ObjectBrowser(key: 2)
-    else
-      OpalConsole(key: 2)
+    key = 0
+    OpalDevtoolsAppBar(key: key += 1)
+    Mui.Container(key: key += 1, class_name: styles.container) do
+      if app_store.active_view == :object_browser
+        ObjectBrowser(key: key +=1)
+      else
+        OpalConsole(key: key +=1)
+      end
     end
   end
 

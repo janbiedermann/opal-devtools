@@ -97,7 +97,6 @@ class ObjectBrowser < LucidMaterial::Component::Base
         }
         if (result) {
           #{
-            `console.log("Current Registry 1:", #{object_registry})`
             if obj_id
               object_registry[class_name][obj_id] = {} unless object_registry[class_name].key?(obj_id)
               `result`.each do |varval|
@@ -126,27 +125,25 @@ class ObjectBrowser < LucidMaterial::Component::Base
         "Refresh Classes"
       end
     end
-    Mui.Container(key: key += 1) do
-      MuiLab.TreeView(key: key += 1, on_node_toggle: :handle_expansion, default_collapse_icon: @collapse_icon, default_expand_icon: @expand_icon) do
-        state.classes.sort.each do |class_name|
-          MuiLab.TreeItem(key: key += 1, node_id: class_name, label: class_name) do
-            if object_registry.key?(class_name)
-              object_registry[class_name].keys.sort.each do |obj_id|
-                MuiLab.TreeItem(key: key += 1, node_id: "#{class_name}|#{obj_id}", label: obj_id) do
-                  Mui.Table(key: key += 1, size: :small) do
-                    Mui.TableBody(key: key += 1) do
-                      if object_registry[class_name][obj_id].any?
-                        object_registry[class_name][obj_id].keys.sort.each do |var_name|
-                          Mui.TableRow(key: key += 1) do
-                            Mui.TableCell(key: key += 1) { var_name.start_with?('$') ? var_name : "@#{var_name}" }
-                            Mui.TableCell(key: key += 1) do
-                              v = "#{object_registry[class_name][obj_id][var_name]}"
-                              if v.start_with?('object|')
-                                _, cn, oid = v.split('|')
-                                [cn, oid].join(" ")
-                              else
-                                v
-                              end
+    MuiLab.TreeView(key: key += 1, on_node_toggle: :handle_expansion, default_collapse_icon: @collapse_icon, default_expand_icon: @expand_icon) do
+      state.classes.sort.each do |class_name|
+        MuiLab.TreeItem(key: key += 1, node_id: class_name, label: class_name) do
+          if object_registry.key?(class_name)
+            object_registry[class_name].keys.sort.each do |obj_id|
+              MuiLab.TreeItem(key: key += 1, node_id: "#{class_name}|#{obj_id}", label: obj_id) do
+                Mui.Table(key: key += 1, size: :small) do
+                  Mui.TableBody(key: key += 1) do
+                    if object_registry[class_name][obj_id].any?
+                      object_registry[class_name][obj_id].keys.sort.each do |var_name|
+                        Mui.TableRow(key: key += 1) do
+                          Mui.TableCell(key: key += 1) { var_name.start_with?('$') ? var_name : "@#{var_name}" }
+                          Mui.TableCell(key: key += 1) do
+                            v = "#{object_registry[class_name][obj_id][var_name]}"
+                            if v.start_with?('object|')
+                              _, cn, oid = v.split('|')
+                              [cn, oid].join(" ")
+                            else
+                              v
                             end
                           end
                         end
@@ -155,14 +152,14 @@ class ObjectBrowser < LucidMaterial::Component::Base
                   end
                 end
               end
-            else
-              MuiLab.TreeItem(key: key += 1, node_id: "#{class_name}|", label: "Object Id") do
-                Mui.Table(key: key += 1, size: :small) do
-                  Mui.TableBody(key: key += 1) do
-                    Mui.TableRow(key: key += 1) do
-                      Mui.TableCell(key: key += 1) { "@instance_variable_name" }
-                      Mui.TableCell(key: key += 1) { "value" }
-                    end
+            end
+          else
+            MuiLab.TreeItem(key: key += 1, node_id: "#{class_name}|", label: "Object Id") do
+              Mui.Table(key: key += 1, size: :small) do
+                Mui.TableBody(key: key += 1) do
+                  Mui.TableRow(key: key += 1) do
+                    Mui.TableCell(key: key += 1) { "@instance_variable_name" }
+                    Mui.TableCell(key: key += 1) { "value" }
                   end
                 end
               end
