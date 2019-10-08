@@ -10,9 +10,13 @@ Currently provides a console to execute ruby in the webpage context.
 Works on Chrome, Firefox and Edge Canary.
 
 Screenshots:
-- Console:
+
+Console:
+
 ![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot_console_firefox.png)
-- Object Browser:
+
+Object Browser:
+
 ![Screenshot](https://raw.githubusercontent.com/isomorfeus/opal-devtools/master/screenshot_object_browser_firefox.png)
 
 ### Community and Support
