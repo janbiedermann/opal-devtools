@@ -28,7 +28,7 @@ At the [Isomorfeus Framework Project](http://isomorfeus.com)
 [Opal Developer Tools from Mozilla AddOns](https://addons.mozilla.org/addon/opaldevtools/)
 
 #### Chromium Browsers (Chrome and other Browsers that can use the Webstore):
-[OpalDeveloperTool from Chrome Webstore](https://chrome.google.com/webstore/detail/opaldevelopertools/lbodjejiiaanfdajbegggpomgogfhahj)
+[OpalDeveloperTools from Chrome Webstore](https://chrome.google.com/webstore/detail/opaldevelopertools/lbodjejiiaanfdajbegggpomgogfhahj)
 
 #### From the Repository
 - clone
