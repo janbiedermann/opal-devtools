@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "production_build": "parallel-webpack --config=webpack/production.js --max-tries=1 --no-stats",
-    "debug_build": "parallel-webpack --watch --config=webpack/debug.js --max-tries=1 --no-stats"
+    "debug": "parallel-webpack --watch --config=webpack/debug.js --max-tries=1 --no-stats"
   },
   "dependencies": {
     "@material-ui/core": "^4.5.0",
