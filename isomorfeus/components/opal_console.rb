@@ -55,7 +55,7 @@ class OpalConsole < LucidMaterial::Component::Base
       if (!caught) { 
         if (typeof opal_devtools_eval_result === 'undefined') { opal_devtools_final_result = 'undefined' }
         else if (opal_devtools_eval_result === null) { opal_devtools_final_result = 'null' }
-        else if (opal_devtools_eval_result == Opal.nil) { opal_devtools_final_result = 'nil' }
+        else if (opal_devtools_eval_result === Opal.nil) { opal_devtools_final_result = 'nil' }
     JAVASCRIPT
     if raw
       javascript += <<~JAVASCRIPT
