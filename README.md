@@ -90,3 +90,33 @@ the object registry for Opal Developer Tools and other features.
 
 ### Credits
 - Tab completion engine originally taken from @fkchang [opal-irb](https://github.com/fkchang/opal-irb)
+
+### Development
+
+You are welcome! And your improvements to opal-devtools ...
+
+- clone repo
+- `yarn install`
+- `bundle install`
+- `yarn run debug`
+- load extension from firefox_extension or chrome_extension directory
+
+Its written in ruby using isomorfeus-react, see link above for docs.
+
+#### Console
+Files are in isomorfeus/components/*Console*.rb.
+- opal_console.rb: For console commands and general functionality.
+- console.rb: For keyboard support, etc.
+
+#### ObjectBrowser
+See isomorfeus/components/object_browser.rb
+
+#### In General
+There is a panel page, isomorfeus/components/isomorfeus_devtools_app.rb, it renders the opal_devtools_app_bar.rb and below it the console or
+object browser.
+
+The panel page executes directly on the page using `chrome.devtools.inspectedWindow.eval`, or on firefox in inject mode, it sends a message.
+Ruby code can be executed using `execute_in_page` in the opal_console.rb, it will be compiled to js.
+
+Framework detection happens via events and messaging, see `*_extension/devtools/devtools.js` -> `check_page_for_opal`, message is received by
+isomorfeus/components/isomorfeus_devtools_app.rb and put into app_store. isomorfeus/components/opal_devtools_app_bar.rb then renders accordingly.
