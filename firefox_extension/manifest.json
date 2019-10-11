@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "OpalDeveloperTools",
   "description": "Tools for working with Opal Ruby in the browser.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Jan Biedermann",
   "homepage_url": "https://github.com/isomorfeus/opal-devtools",
 
