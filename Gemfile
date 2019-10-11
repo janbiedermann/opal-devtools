@@ -8,4 +8,5 @@ gem 'opal-webpack-loader', '>= 0.9.6'
 
 gem 'opal-autoloader', '~> 0.1.0'
 gem 'isomorfeus-redux', '~> 4.0.14'
-gem 'isomorfeus-react', '~> 16.10.5'
+gem 'isomorfeus-react', '~> 16.10.8'
+
