@@ -15,9 +15,9 @@ class IsomorfeusDevtoolsApp < LucidMaterial::App::Base
     OpalDevtoolsAppBar(key: key += 1)
     Mui.Container(key: key += 1, class_name: styles.container) do
       if app_store.active_view == :object_browser
-        ObjectBrowser(key: key +=1)
+        ObjectBrowser(key: key += 1)
       else
-        OpalConsole(key: key +=1)
+        OpalConsole(key: key += 1)
       end
     end
   end
