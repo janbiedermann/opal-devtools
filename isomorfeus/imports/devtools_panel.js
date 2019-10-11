@@ -7,19 +7,8 @@ import * as Redux from 'redux';
 global.Redux = Redux;
 import React from 'react';
 global.React = React;
-import * as ReactRouter from 'react-router';
-import * as ReactRouterDOM from 'react-router-dom';
-global.ReactRouter = ReactRouter;
-global.ReactRouterDOM = ReactRouterDOM;
 import ReactDOM from 'react-dom';
 global.ReactDOM = ReactDOM;
-import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
-// global.History = History;
-global.Router = BrowserRouter;
-global.Link = Link;
-global.NavLink = NavLink;
-global.Route = Route;
-global.Switch = Switch;
 
 import * as Mui from '@material-ui/core'
 import * as MuiStyles from '@material-ui/styles'
